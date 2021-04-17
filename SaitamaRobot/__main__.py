@@ -71,19 +71,23 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hey hi {}, I'm {}!
-I am an Anime themed group management bot.
-Built by weebs for weebs, I specialize in managing anime eccentric communities!
+Hey Chào {}, Mình là {}!
+Mình là một người hỗ trợ quản lý group tại telegram!
+Được tạo bởi chị chủ: @phuonganh_lnb
+Rất vui vì được giúp đỡ bạn 🥰🥰🥰
 """
 
 HELP_STRINGS = """
 Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạn nhé!
+• /settings:
+   • Trong PM: Sẽ hiển thị tất cả các module đã được hỗ trợ.
+   • Trong Group: Sẽ chuyễn bạn đến với PM với tất cả các cài đặt của chat.
 """.format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
-SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
+SAITAMA_IMG = "hhttps://telegra.ph/file/29d4e2ef2d1ea2c17fa57.jpg"
 
 DONATE_STRING = """Heya, bạn muốn ủng hộ cho chị chủ hả?
  Bạn có thể donate cho chị chủ qua [Paypal](https://www.paypal.me/laungungbitch) nhé!
@@ -153,7 +157,7 @@ def send_help(chat_id, text, keyboard=None):
 def test(update: Update, context: CallbackContext):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("This person edited a message")
+    update.effective_message.reply_text("Người này đã thay đổi một tin nhắn")
     print(update.effective_message)
 
 
@@ -232,7 +236,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
+            "Mình đã thức dậy rồi đây\n<b>Đã không ngủ kể từ khi:</b> <code>{}</code>".format(
                 uptime,
             ),
             parse_mode=ParseMode.HTML,
@@ -283,7 +287,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                "Đây là trợ giúp cho *{}* module:\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -344,7 +348,7 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                f"Liên hệ với mình trong PM để nhận trợ giúp về {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -360,7 +364,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Liên hệ với mình trong PM để nhận danh sách các module.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -377,7 +381,7 @@ def get_help(update: Update, context: CallbackContext):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            "Đây là trợ giúp có sẵn cho *{}* module:\n".format(
                 HELPABLE[module].__mod_name__,
             )
             + HELPABLE[module].__help__
@@ -403,14 +407,14 @@ def send_settings(chat_id, user_id, user=False):
             )
             dispatcher.bot.send_message(
                 user_id,
-                "These are your current settings:" + "\n\n" + settings,
+                "Đây là những cài đặt hiện tại của bạn:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Có vẻ như không có bất kỳ cài đặt dành riêng cho người dùng nào :'(",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -419,7 +423,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Which module would you like to check {}'s settings for?".format(
+                text="Bạn muốn kiểm tra cài đặt của module {}'s nào?".format(
                     chat_name,
                 ),
                 reply_markup=InlineKeyboardMarkup(
@@ -429,8 +433,8 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "Có vẻ như không có bất kỳ cài đặt trò chuyện nào khả dụng :'(\nSend this "
+                "trong một cuộc trò chuyện nhóm mà bạn đang quản trị để tìm cài đặt hiện tại của nó!",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
