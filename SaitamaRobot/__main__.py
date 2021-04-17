@@ -72,8 +72,10 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hey {}, Mình là {}!
-Mình là một hỗ trợ quản lý group trên telegram được tạo ra bởi chị chủ Phương Anh.
-Rất vui vì được hỗ trợ bạn!
+
+Mình là một hỗ trợ quản lý group trên telegram được tạo ra bởi chị chủ [Phương Anh](https://t.me/phuonganh_lnb).
+
+Rất vui vì được hỗ trợ bạn! 🥰🥰🥰
 """
 
 HELP_STRINGS = """
@@ -82,20 +84,16 @@ Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạ
    • Trong PM: Sẽ hiển thị tất cả các module đã được hỗ trợ.
    • Trong Group: Sẽ chuyễn bạn đến với PM với tất cả các cài đặt của chat.
 
-
-{}
-And the following:
 """.format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
-SAITAMA_IMG = "https://telegra.ph/file/29d4e2ef2d1ea2c17fa57.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/7a6f6dd98c124087d72a6.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
- Supporting isnt always financial! \
- Those who cannot provide monetary support are welcome to help us develop the bot at @OnePunchDev."""
+DONATE_STRING = """Heya, Bạn muốn ủng hộ chị chủ của mình sao?
+ Bạn có thể donate qua [Paypal](https://www.paypal.me/laungungbitch) nha 😘😘😘
+"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -212,7 +210,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="☑️ Add me",
+                                text="☑️ Add Mình Vào Group Của Bạn",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username,
                                 ),
@@ -220,28 +218,18 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🚑 Support",
+                                text="🚑 Hỗ Trợ",
                                 url=f"https://t.me/{SUPPORT_CHAT}",
                             ),
                             InlineKeyboardButton(
-                                text="🔔 Updates",
+                                text="🔔 Nhóm Support",
                                 url="https://t.me/OnePunchUpdates",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🧾 Getting Started",
-                                url="https://t.me/OnePunchUpdates/29",
-                            ),
-                            InlineKeyboardButton(
-                                text="🗄 Source code",
-                                url="https://github.com/AnimeKaizoku/SaitamaRobot",
-                            ),
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="☠️ Kaizoku Network",
-                                url="https://t.me/Kaizoku/4",
+                                text="🥰 Telegram Của Chị Chủ",
+                                url="https://t.me/phuonganh_lnb",
                             ),
                         ],
                     ],
