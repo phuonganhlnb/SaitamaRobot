@@ -217,7 +217,7 @@ def start(update: Update, context: CallbackContext):
                                 ),
                             ),
                         ],
-                        [InlineKeyboardButton(text="help", callback_data="help_back")],
+                        [InlineKeyboardButton(text="help", callback_data="donate_back")],
                         [
                             InlineKeyboardButton(
                                 text="😎 Trợ Giúp",
