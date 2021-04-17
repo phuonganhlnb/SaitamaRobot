@@ -220,7 +220,8 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="😎 Trợ Giúp",
-                                callback_data="help_back"),
+                                url="t.me/{}?start=help"
+                            ),
                             InlineKeyboardButton(
                                 text="🥳 Donate",
                                 url="https://www.paypal.me/laungungbitch",
