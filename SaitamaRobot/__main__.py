@@ -71,10 +71,9 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Chào {}, Mình là {}!
-Mình là người quản lý group trên Telegram!
-Mình được tạo ra bởi chị chủ @phuonganh_lnb
-Rất vui vì được giúp đỡ bạn 🥰🥰🥰
+Hey hi {}, I'm {}!
+I am an Anime themed group management bot.
+Built by weebs for weebs, I specialize in managing anime eccentric communities!
 """
 
 HELP_STRINGS = """
@@ -84,7 +83,7 @@ Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạ
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
-SAITAMA_IMG = "https://danviet.mediacdn.vn/zoom/700_438/2020/11/19/le-bong-1a-1605770106876600963044-crop-1606384717151357706734.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
 
 DONATE_STRING = """Heya, bạn muốn ủng hộ cho chị chủ hả?
  Bạn có thể donate cho chị chủ qua [Paypal](https://www.paypal.me/laungungbitch) nhé!
