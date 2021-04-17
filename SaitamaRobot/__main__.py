@@ -71,28 +71,38 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hey Chào {}, Mình là {}!
-Mình là một người hỗ trợ quản lý group tại telegram!
-Được tạo bởi chị chủ: @phuonganh_lnb
-Rất vui vì được giúp đỡ bạn 🥰🥰🥰
+Hey hi {}, I'm {}!
+I am an Anime themed group management bot.
+Built by weebs for weebs, I specialize in managing anime eccentric communities!
 """
 
 HELP_STRINGS = """
-Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạn nhé!
-• /settings:
-   • Trong PM: Sẽ hiển thị tất cả các module đã được hỗ trợ.
-   • Trong Group: Sẽ chuyễn bạn đến với PM với tất cả các cài đặt của chat.
+Hey there! My name is *{}*.
+I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
+the things I can help you with.
+
+*Main* commands available:
+ • /help: PM's you this message.
+ • /help <module name>: PM's you info about that module.
+ • /donate: information on how to donate!
+ • /settings:
+   • in PM: will send you your settings for all supported modules.
+   • in a group: will redirect you to pm, with all that chat's settings.
+
+
+{}
+And the following:
 """.format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
-SAITAMA_IMG = "hhttps://telegra.ph/file/29d4e2ef2d1ea2c17fa57.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
 
-DONATE_STRING = """Heya, bạn muốn ủng hộ cho chị chủ hả?
- Bạn có thể donate cho chị chủ qua [Paypal](https://www.paypal.me/laungungbitch) nhé!
- 😍😍😍
- """
+DONATE_STRING = """Heya, glad to hear you want to donate!
+ You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
+ Supporting isnt always financial! \
+ Those who cannot provide monetary support are welcome to help us develop the bot at @OnePunchDev."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -157,7 +167,7 @@ def send_help(chat_id, text, keyboard=None):
 def test(update: Update, context: CallbackContext):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("Người này đã thay đổi một tin nhắn")
+    update.effective_message.reply_text("This person edited a message")
     print(update.effective_message)
 
 
@@ -209,7 +219,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="☑️ Chèn mình vào group của bạn.",
+                                text="☑️ Add me",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username,
                                 ),
@@ -221,14 +231,24 @@ def start(update: Update, context: CallbackContext):
                                 url=f"https://t.me/{SUPPORT_CHAT}",
                             ),
                             InlineKeyboardButton(
-                                text="🔔 Donate",
-                                url="https://www.paypal.me/laungungbitch",
+                                text="🔔 Updates",
+                                url="https://t.me/OnePunchUpdates",
                             ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🥰 Telegram của chị chủ",
-                                url="https://t.me/phuonganh_lnb",
+                                text="🧾 Getting Started",
+                                url="https://t.me/OnePunchUpdates/29",
+                            ),
+                            InlineKeyboardButton(
+                                text="🗄 Source code",
+                                url="https://github.com/AnimeKaizoku/SaitamaRobot",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="☠️ Kaizoku Network",
+                                url="https://t.me/Kaizoku/4",
                             ),
                         ],
                     ],
@@ -236,7 +256,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "Mình đã thức dậy rồi đây\n<b>Đã không ngủ kể từ khi:</b> <code>{}</code>".format(
+            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
                 uptime,
             ),
             parse_mode=ParseMode.HTML,
@@ -287,7 +307,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Đây là trợ giúp cho *{}* module:\n".format(
+                "Here is the help for the *{}* module:\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -348,7 +368,7 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Liên hệ với mình trong PM để nhận trợ giúp về {module.capitalize()}",
+                f"Contact me in PM to get help of {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -364,7 +384,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Liên hệ với mình trong PM để nhận danh sách các module.",
+            "Contact me in PM to get the list of possible commands.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -381,7 +401,7 @@ def get_help(update: Update, context: CallbackContext):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Đây là trợ giúp có sẵn cho *{}* module:\n".format(
+            "Here is the available help for the *{}* module:\n".format(
                 HELPABLE[module].__mod_name__,
             )
             + HELPABLE[module].__help__
@@ -407,14 +427,14 @@ def send_settings(chat_id, user_id, user=False):
             )
             dispatcher.bot.send_message(
                 user_id,
-                "Đây là những cài đặt hiện tại của bạn:" + "\n\n" + settings,
+                "These are your current settings:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Có vẻ như không có bất kỳ cài đặt dành riêng cho người dùng nào :'(",
+                "Seems like there aren't any user specific settings available :'(",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -423,7 +443,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Bạn muốn kiểm tra cài đặt của module {}'s nào?".format(
+                text="Which module would you like to check {}'s settings for?".format(
                     chat_name,
                 ),
                 reply_markup=InlineKeyboardMarkup(
@@ -433,8 +453,8 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Có vẻ như không có bất kỳ cài đặt trò chuyện nào khả dụng :'(\nSend this "
-                "trong một cuộc trò chuyện nhóm mà bạn đang quản trị để tìm cài đặt hiện tại của nó!",
+                "Seems like there aren't any chat settings available :'(\nSend this "
+                "in a group chat you're admin in to find its current settings!",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
