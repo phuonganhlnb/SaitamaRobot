@@ -44,14 +44,14 @@ def promote(update: Update, context: CallbackContext) -> str:
         not (promoter.can_promote_members or promoter.status == "creator")
         and user.id not in DRAGONS
     ):
-        message.reply_text("You don't have the necessary rights to do that!")
+        message.reply_text("Bạn không có quyền cần thiết để làm điều đó đâu!")
         return
 
     user_id = extract_user(message, args)
 
     if not user_id:
         message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
+            "Có vẻ như bạn không đề cập đến người dùng hoặc ID được chỉ định không chính xác ..",
         )
         return
 
@@ -61,11 +61,11 @@ def promote(update: Update, context: CallbackContext) -> str:
         return
 
     if user_member.status == "administrator" or user_member.status == "creator":
-        message.reply_text("How am I meant to promote someone that's already an admin?")
+        message.reply_text("Làm thế nào mình lại có ý định thăng cấp một người đã là quản trị viên vậy?")
         return
 
     if user_id == bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
+        message.reply_text("Mình không thể tự thăng cấp bản thân được! Phải có quản trị viên mới làm được điều đó.")
         return
 
     # set same perms as bot - bot can't assign higher perms than itself!
@@ -86,9 +86,9 @@ def promote(update: Update, context: CallbackContext) -> str:
         )
     except BadRequest as err:
         if err.message == "User_not_mutual_contact":
-            message.reply_text("I can't promote someone who isn't in the group.")
+            message.reply_text("Mình không thể thăng cấp người không có trong nhóm đâu.")
         else:
-            message.reply_text("An error occured while promoting.")
+            message.reply_text("Đã xảy ra lỗi khi thăng cấp.")
         return
 
     bot.sendMessage(
@@ -124,7 +124,7 @@ def demote(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
+            "Có vẻ như bạn không đề cập đến người dùng hoặc ID được chỉ định không chính xác ..",
         )
         return
 
@@ -134,15 +134,15 @@ def demote(update: Update, context: CallbackContext) -> str:
         return
 
     if user_member.status == "creator":
-        message.reply_text("This person CREATED the chat, how would I demote them?")
+        message.reply_text("Người này đã tạo ra cuộc trò chuyện, làm thế nào để mình có thể hạ cấp họ đây?")
         return
 
     if not user_member.status == "administrator":
-        message.reply_text("Can't demote what wasn't promoted!")
+        message.reply_text("Không thể hạ cấp những gì không được thăng hạng!")
         return
 
     if user_id == bot.id:
-        message.reply_text("I can't demote myself! Get an admin to do it for me.")
+        message.reply_text("Mình không thể hạ cấp chính bản thân mình! Phải là quản trị viên mới làm được.")
         return
 
     try:
@@ -161,7 +161,7 @@ def demote(update: Update, context: CallbackContext) -> str:
 
         bot.sendMessage(
             chat.id,
-            f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!",
+            f"Giáng cấp thành công <b>{user_member.user.first_name or user_id}</b>!",
             parse_mode=ParseMode.HTML,
         )
 
@@ -175,8 +175,8 @@ def demote(update: Update, context: CallbackContext) -> str:
         return log_message
     except BadRequest:
         message.reply_text(
-            "Could not demote. I might not be admin, or the admin status was appointed by another"
-            " user, so I can't act upon them!",
+            "Không thể hạ cấp. Mình có thể không phải là quản trị viên hoặc trạng thái quản trị viên được chỉ định bởi một người khác"
+            " Đó là User , vì vậy mình không thể hành động dựa theo họ được!",
         )
         return
 
@@ -212,46 +212,46 @@ def set_title(update: Update, context: CallbackContext):
 
     if not user_id:
         message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
+            "Có vẻ như bạn không đề cập đến người dùng hoặc ID được chỉ định không chính xác..",
         )
         return
 
     if user_member.status == "creator":
         message.reply_text(
-            "This person CREATED the chat, how can i set custom title for him?",
+            "Người này đã tạo ra cuộc trò chuyện, làm thế nào mình có thể đặt tiêu đề tùy chỉnh họ được",
         )
         return
 
     if user_member.status != "administrator":
         message.reply_text(
-            "Can't set title for non-admins!\nPromote them first to set custom title!",
+            "Không thể đặt tiêu đề cho những người không phải là quản trị viên!\nThăng cấp họ trước để đặt tiêu đề tùy chỉnh!",
         )
         return
 
     if user_id == bot.id:
         message.reply_text(
-            "I can't set my own title myself! Get the one who made me admin to do it for me.",
+            "Mình không thể tự đặt tiêu đề cho chính mình được! Phải là quản trị viên mới thực hiện được điều đó.",
         )
         return
 
     if not title:
-        message.reply_text("Setting blank title doesn't do anything!")
+        message.reply_text("Không thể đặt tiêu đề trống!")
         return
 
     if len(title) > 16:
         message.reply_text(
-            "The title length is longer than 16 characters.\nTruncating it to 16 characters.",
+            "Độ dài tiêu đề dài hơn 16 ký tự.\nVui lòng cắt ngắn nó xuống còn 16 ký tự.",
         )
 
     try:
         bot.setChatAdministratorCustomTitle(chat.id, user_id, title)
     except BadRequest:
-        message.reply_text("Either they aren't promoted by me or you set a title text that is impossible to set.")
+        message.reply_text("Hoặc là họ không được mình thăng cấp hoặc bạn đặt tiêu đề văn bản không thể đặt được.")
         return
 
     bot.sendMessage(
         chat.id,
-        f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
+        f"Đặt tiêu đề thành công cho <code>{user_member.user.first_name or user_id}</code> "
         f"to <code>{html.escape(title[:16])}</code>!",
         parse_mode=ParseMode.HTML,
     )
@@ -343,11 +343,11 @@ def invite(update: Update, context: CallbackContext):
             update.effective_message.reply_text(invitelink)
         else:
             update.effective_message.reply_text(
-                "I don't have access to the invite link, try changing my permissions!",
+                "Mình không có quyền truy cập vào liên kết mời, hãy thử thay đổi quyền nhé!",
             )
     else:
         update.effective_message.reply_text(
-            "I can only give you invite links for supergroups and channels, sorry!",
+            "Mình chỉ có thể cung cấp cho bạn các liên kết mời cho các siêu nhóm và kênh, thật xin lỗi!",
         )
 
 
@@ -360,7 +360,7 @@ def adminlist(update, context):
     bot = context.bot
 
     if update.effective_message.chat.type == "private":
-        send_message(update.effective_message, "This command only works in Groups.")
+        send_message(update.effective_message, "Lệnh này chỉ hoạt động trong Nhóm.")
         return
 
     chat = update.effective_chat
@@ -369,11 +369,11 @@ def adminlist(update, context):
 
     try:
         msg = update.effective_message.reply_text(
-            "Fetching group admins...", parse_mode=ParseMode.HTML,
+            "Đang tìm quản trị viên nhóm ...", parse_mode=ParseMode.HTML,
         )
     except BadRequest:
         msg = update.effective_message.reply_text(
-            "Fetching group admins...", quote=False, parse_mode=ParseMode.HTML,
+            "Đang tìm quản trị viên nhóm ...", quote=False, parse_mode=ParseMode.HTML,
         )
 
     administrators = bot.getChatAdministrators(chat_id)
@@ -459,16 +459,16 @@ def adminlist(update, context):
 
 
 __help__ = """
- • `/admins`*:* list of admins in the chat
+ • `/admins`*:* Danh sách quản trị viên trong cuộc trò chuyện
 
 *Admins only:*
- • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users
- • `/unpin`*:* unpins the currently pinned message
- • `/invitelink`*:* gets invitelink
- • `/promote`*:* promotes the user replied to
- • `/demote`*:* demotes the user replied to
- • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
- • `/admincache`*:* force refresh the admins list
+ • `/pin`*:* âm thầm ghim tin nhắn đã trả lời - add `'loud'` or `'notify'` để cung cấp thông tin cho người dùng
+ • `/unpin`*:* bỏ ghim tin nhắn đang được ghim
+ • `/invitelink`*:* nhận liên kết mời
+ • `/promote`*:* thăng cấp người dùng được reply
+ • `/demote`*:* hạ cấp người dùng được reply
+ • `/title <title here>`*:* đặt tiêu đề tùy chỉnh cho một quản trị viên mà bot đã thăng cấp
+ • `/admincache`*:*  làm mới danh sách quản trị viên
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
