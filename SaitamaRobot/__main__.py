@@ -77,10 +77,9 @@ Rất vui vì có thể giúp đỡ bạn!
 """
 
 HELP_STRINGS = """
-Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạn nhé!
-• /settings:
-   • Trong PM: Sẽ hiển thị tất cả các module đã được hỗ trợ.
-   • Trong Group: Sẽ chuyễn bạn đến với PM với tất cả các cài đặt của chat.
+Hey there! My name is *{}*.
+I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
+the things I can help you with.
 
 
 {}
