@@ -71,15 +71,22 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Chào {}, Mình là {}!
-Mình là một hỗ trợ quản lý group telegram được tạo bởi chị chủ @phuonganh_lnb
-Rất vui vì có thể giúp đỡ bạn!
+Hey hi {}, I'm {}!
+I am an Anime themed group management bot.
+Built by weebs for weebs, I specialize in managing anime eccentric communities!
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
 I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
 the things I can help you with.
+*Main* commands available:
+ • /help: PM's you this message.
+ • /help <module name>: PM's you info about that module.
+ • /donate: information on how to donate!
+ • /settings:
+   • in PM: will send you your settings for all supported modules.
+   • in a group: will redirect you to pm, with all that chat's settings.
 
 
 {}
