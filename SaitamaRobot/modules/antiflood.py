@@ -101,13 +101,13 @@ def check_flood(update, context) -> str:
 
     except BadRequest:
         msg.reply_text(
-            "I can't restrict people here, give me permissions first! Until then, I'll disable anti-flood.",
+            "Mình không thể hạn chế mọi người ở đây, hãy cho mình quyền trước! Cho đến lúc đó, mình sẽ tắt tính năng anti-flood",
         )
         sql.set_flood(chat.id, 0)
         return (
             "<b>{}:</b>"
             "\n#INFO"
-            "\nDon't have enough permission to restrict users so automatically disabled anti-flood".format(
+            "\nKhông có đủ quyền hạn chế người dùng nên tính năng anti-flood sẽ tự động tắt".format(
                 chat.title,
             )
         )
@@ -160,7 +160,7 @@ def set_flood(update, context) -> str:
         if update.effective_message.chat.type == "private":
             send_message(
                 update.effective_message,
-                "This command is meant to use in group not in PM",
+                "Lệnh này được sử dụng trong nhóm không phải trong PM",
             )
             return ""
         chat_id = update.effective_chat.id
@@ -172,10 +172,10 @@ def set_flood(update, context) -> str:
             sql.set_flood(chat_id, 0)
             if conn:
                 text = message.reply_text(
-                    "Antiflood has been disabled in {}.".format(chat_name),
+                    "Antiflood đã bị vô hiệu hóa trong {}.".format(chat_name),
                 )
             else:
-                text = message.reply_text("Antiflood has been disabled.")
+                text = message.reply_text("Antiflood đã bị vô hiệu hóa.")
 
         elif val.isdigit():
             amount = int(val)
@@ -183,15 +183,15 @@ def set_flood(update, context) -> str:
                 sql.set_flood(chat_id, 0)
                 if conn:
                     text = message.reply_text(
-                        "Antiflood has been disabled in {}.".format(chat_name),
+                        "Antiflood đã bị vô hiệu hóa trong {}.".format(chat_name),
                     )
                 else:
-                    text = message.reply_text("Antiflood has been disabled.")
+                    text = message.reply_text("Antiflood đã bị vô hiệu hóa.")
                 return (
                     "<b>{}:</b>"
                     "\n#SETFLOOD"
                     "\n<b>Admin:</b> {}"
-                    "\nDisable antiflood.".format(
+                    "\nĐã vô hiệu hóa antiflood.".format(
                         html.escape(chat_name),
                         mention_html(user.id, html.escape(user.first_name)),
                     )
@@ -200,7 +200,7 @@ def set_flood(update, context) -> str:
             elif amount <= 3:
                 send_message(
                     update.effective_message,
-                    "Antiflood must be either 0 (disabled) or number greater than 3!",
+                    "Antiflood phải là 0 (bị vô hiệu hóa) hoặc số lớn hơn 3!",
                 )
                 return ""
 
@@ -208,19 +208,19 @@ def set_flood(update, context) -> str:
                 sql.set_flood(chat_id, amount)
                 if conn:
                     text = message.reply_text(
-                        "Anti-flood has been set to {} in chat: {}".format(
+                        "Antiflood đã được đặt thành {} trong trò chuyện: {}".format(
                             amount, chat_name,
                         ),
                     )
                 else:
                     text = message.reply_text(
-                        "Successfully updated anti-flood limit to {}!".format(amount),
+                        "Đã cập nhật thành công giới hạn Antiflood thành {}!".format(amount),
                     )
                 return (
                     "<b>{}:</b>"
                     "\n#SETFLOOD"
                     "\n<b>Admin:</b> {}"
-                    "\nSet antiflood to <code>{}</code>.".format(
+                    "\nĐặt antiflood thành <code>{}</code>.".format(
                         html.escape(chat_name),
                         mention_html(user.id, html.escape(user.first_name)),
                         amount,
@@ -228,11 +228,11 @@ def set_flood(update, context) -> str:
                 )
 
         else:
-            message.reply_text("Invalid argument please use a number, 'off' or 'no'")
+            message.reply_text("Đối số không hợp lệ, vui lòng sử dụng một số, 'off' or 'no'")
     else:
         message.reply_text(
             (
-                "Use `/setflood number` to enable anti-flood.\nOr use `/setflood off` to disable antiflood!."
+                "Sử dụng `/setflood number` để kích hoạt anti-flood.\nHoặc sử dụng `/setflood off` để vô hiệu hóa antiflood!."
             ),
             parse_mode="markdown",
         )
@@ -253,7 +253,7 @@ def flood(update, context):
         if update.effective_message.chat.type == "private":
             send_message(
                 update.effective_message,
-                "This command is meant to use in group not in PM",
+                "Lệnh này được sử dụng trong nhóm không dùng trong PM",
             )
             return
         chat_id = update.effective_chat.id
@@ -263,20 +263,20 @@ def flood(update, context):
     if limit == 0:
         if conn:
             text = msg.reply_text(
-                "I'm not enforcing any flood control in {}!".format(chat_name),
+                "Mình không thực thi bất kỳ biện pháp antiflood nào ở {}!".format(chat_name),
             )
         else:
-            text = msg.reply_text("I'm not enforcing any flood control here!")
+            text = msg.reply_text("Tôi không thực thi bất kỳ antiflood nào ở đây!")
     else:
         if conn:
             text = msg.reply_text(
-                "I'm currently restricting members after {} consecutive messages in {}.".format(
+                "Mình hiện đang giới hạn thành viên sau {} tin nhắn liên tiếp trong {}.".format(
                     limit, chat_name,
                 ),
             )
         else:
             text = msg.reply_text(
-                "I'm currently restricting members after {} consecutive messages.".format(
+                "Mình hiện đang giới hạn thành viên sau {} tin nhắn liên tiếp.".format(
                     limit,
                 ),
             )
@@ -299,7 +299,7 @@ def set_flood_mode(update, context):
         if update.effective_message.chat.type == "private":
             send_message(
                 update.effective_message,
-                "This command is meant to use in group not in PM",
+                "Lệnh này được sử dụng trong nhóm không dùng trong PM",
             )
             return ""
         chat = update.effective_chat
@@ -318,8 +318,8 @@ def set_flood_mode(update, context):
             sql.set_flood_strength(chat_id, 3, "0")
         elif args[0].lower() == "tban":
             if len(args) == 1:
-                teks = """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tban <timevalue>`.
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = """Có vẻ như bạn đã cố gắng đặt giá trị thời gian cho antiflood nhưng bạn không chỉ định thời gian; Thủ, `/setfloodmode tban <Giá trị thời gian>`.
+Ví dụ về giá trị thời gian: 4m = 4 phút, 3h = 3 giờ, 6d = 6 ngày, 5w = 5 tuần."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeflood = "tban for {}".format(args[1])
@@ -328,8 +328,8 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             if len(args) == 1:
                 teks = (
                     update.effective_message,
-                    """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tmute <timevalue>`.
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.""",
+                    """Có vẻ như bạn đã cố gắng đặt giá trị thời gian cho antiflood nhưng bạn không chỉ định thời gian; Try, `/setfloodmode tmute <Giá trị thời gian>`.
+Ví dụ về giá trị thời gian: 4m = 4 phút, 3h = 3 giờ, 6d = 6 ngày, 5w = 5 tuần.""",
                 )
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
@@ -337,25 +337,25 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             sql.set_flood_strength(chat_id, 5, str(args[1]))
         else:
             send_message(
-                update.effective_message, "I only understand ban/kick/mute/tban/tmute!",
+                update.effective_message, "Mình chỉ hiểu ban/kick/mute/tban/tmute thôi!",
             )
             return
         if conn:
             text = msg.reply_text(
-                "Exceeding consecutive flood limit will result in {} in {}!".format(
+                "Vượt quá giới hạn antiflood liên tiếp sẽ dẫn đến{} trong {}!".format(
                     settypeflood, chat_name,
                 ),
             )
         else:
             text = msg.reply_text(
-                "Exceeding consecutive flood limit will result in {}!".format(
+                "Vượt quá giới hạn antiflood liên tiếp sẽ dẫn đến {}!".format(
                     settypeflood,
                 ),
             )
         return (
             "<b>{}:</b>\n"
             "<b>Admin:</b> {}\n"
-            "Has changed antiflood mode. User will {}.".format(
+            "Đã thay đổi chế độ antiflood. Người dùng sẽ {}.".format(
                 settypeflood,
                 html.escape(chat.title),
                 mention_html(user.id, html.escape(user.first_name)),
@@ -375,13 +375,13 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             settypeflood = "tmute for {}".format(getvalue)
         if conn:
             text = msg.reply_text(
-                "Sending more messages than flood limit will result in {} in {}.".format(
+                "Gửi nhiều tin nhắn hơn giới hạn antiflood sẽ dẫn đến{} trong {}.".format(
                     settypeflood, chat_name,
                 ),
             )
         else:
             text = msg.reply_text(
-                "Sending more message than flood limit will result in {}.".format(
+                "Gửi nhiều tin nhắn hơn giới hạn antiflood sẽ dẫn đến {}.".format(
                     settypeflood,
                 ),
             )
@@ -395,27 +395,26 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
-        return "Not enforcing to flood control."
+        return "Không thực thi để kiểm soát flood."
     else:
-        return "Antiflood has been set to`{}`.".format(limit)
+        return "Antiflood đã được đặt thành`{}`.".format(limit)
 
 
 __help__ = """
-Antiflood allows you to take action on users that send more than x messages in a row. Exceeding the set flood \
-will result in restricting that user.
- This will mute users if they send more than 10 messages in a row, bots are ignored.
- • `/flood`*:* Get the current flood control setting
+Antiflood cho phép bạn thực hiện hành động đối với những người dùng gửi hơn x tin nhắn liên tiếp. Vượt số lượng đã định sắn sẽ dẫn đến việc hạn chế người dùng đó.
+Điều này sẽ tắt tiếng người dùng nếu họ gửi hơn 10 tin nhắn liên tiếp, các bot sẽ bị bỏ qua.
+ • `/flood`*:* Nhận cài đặt kiểm soát flood hiện tại
 • *Admins only:*
- • `/setflood <int/'no'/'off'>`*:* enables or disables flood control
- *Example:* `/setflood 10`
- • `/setfloodmode <ban/kick/mute/tban/tmute> <value>`*:* Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban
-• *Note:*
- • Value must be filled for tban and tmute!!
- It can be:
- `5m` = 5 minutes
- `6h` = 6 hours
- `3d` = 3 days
- `1w` = 1 week
+ • `/setflood <int/'no'/'off'>`*:* bật hoặc tắt kiểm soát flood
+ *Ví dụ:* `/setflood 10`
+ • `/setfloodmode <ban/kick/mute/tban/tmute> <Giá trị>`*:* Hành động cần thực hiện khi người dùng đã vượt quá giới hạn flood. ban/kick/mute/tmute/tban
+• *Ghi chú:*
+ • Giá trị phải được điền cho tban và tmute!!
+ Nó có thể là:
+ `5m` = 5 phút
+ `6h` = 6 giờ
+ `3d` = 3 ngày
+ `1w` = 1 tuần
  """
 
 __mod_name__ = "Anti-Flood"
