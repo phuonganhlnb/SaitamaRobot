@@ -23,7 +23,7 @@ def approve(update, context):
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!",
+            "Mình không biết bạn đang nói về ai, bạn sẽ cần chỉ định một người dùng!",
         )
         return ""
     try:
@@ -32,7 +32,7 @@ def approve(update, context):
         return ""
     if member.status == "administrator" or member.status == "creator":
         message.reply_text(
-            "User is already admin - locks, blocklists, and antiflood already don't apply to them.",
+            "Người dùng đã là quản trị viên - locks, danh sách chặn và antiflood đã không áp dụng cho họ.",
         )
         return ""
     if sql.is_approved(message.chat_id, user_id):
@@ -68,7 +68,7 @@ def disapprove(update, context):
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!",
+            "Mình không biết bạn đang nói về ai, bạn sẽ cần chỉ định một người dùng!",
         )
         return ""
     try:
@@ -76,7 +76,7 @@ def disapprove(update, context):
     except BadRequest:
         return ""
     if member.status == "administrator" or member.status == "creator":
-        message.reply_text("This user is an admin, they can't be unapproved.")
+        message.reply_text("Người dùng này là quản trị viên, họ không thể bị hủy phê duyệt.")
         return ""
     if not sql.is_approved(message.chat_id, user_id):
         message.reply_text(f"{member.user['first_name']} isn't approved yet!")
@@ -101,13 +101,13 @@ def approved(update, context):
     message = update.effective_message
     chat_title = message.chat.title
     chat = update.effective_chat
-    msg = "The following users are approved.\n"
+    msg = "Những người dùng sau được chấp thuận.\n"
     approved_users = sql.list_approved(message.chat_id)
     for i in approved_users:
         member = chat.get_member(int(i.user_id))
         msg += f"- `{i.user_id}`: {member.user['first_name']}\n"
     if msg.endswith("approved.\n"):
-        message.reply_text(f"No users are approved in {chat_title}.")
+        message.reply_text(f"Không có người dùng nào được phê duyệt trong {chat_title}.")
         return ""
     else:
         message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
@@ -123,7 +123,7 @@ def approval(update, context):
     member = chat.get_member(int(user_id))
     if not user_id:
         message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!",
+            "Mình không biết bạn đang nói về ai, bạn sẽ cần chỉ định một người dùng!",
         )
         return ""
     if sql.is_approved(message.chat_id, user_id):
@@ -143,7 +143,7 @@ def unapproveall(update: Update, context: CallbackContext):
     member = chat.get_member(user.id)
     if member.status != "creator" and user.id not in DRAGONS:
         update.effective_message.reply_text(
-            "Only the chat owner can unapprove all users at once.",
+            "Chỉ chủ sở hữu trò chuyện mới có thể hủy chấp thuận tất cả người dùng cùng một lúc.",
         )
     else:
         buttons = InlineKeyboardMarkup(
@@ -161,7 +161,7 @@ def unapproveall(update: Update, context: CallbackContext):
             ],
         )
         update.effective_message.reply_text(
-            f"Are you sure you would like to unapprove ALL users in {chat.title}? This action cannot be undone.",
+            f"Bạn có chắc chắn muốn hủy chấp thuận TẤT CẢ người dùng trong{chat.title}? Hành động này không thể được hoàn tác.",
             reply_markup=buttons,
             parse_mode=ParseMode.MARKDOWN,
         )
@@ -181,32 +181,32 @@ def unapproveall_btn(update: Update, context: CallbackContext):
                 sql.disapprove(chat.id, user_id)
 
         if member.status == "administrator":
-            query.answer("Only owner of the chat can do this.")
+            query.answer("Chỉ chủ sở hữu của cuộc trò chuyện mới có thể làm điều này.")
 
         if member.status == "member":
-            query.answer("You need to be admin to do this.")
+            query.answer("Bạn cần phải là quản trị viên để làm điều này.")
     elif query.data == "unapproveall_cancel":
         if member.status == "creator" or query.from_user.id in DRAGONS:
-            message.edit_text("Removing of all approved users has been cancelled.")
+            message.edit_text("Xóa tất cả người dùng được phê duyệt đã bị hủy.")
             return ""
         if member.status == "administrator":
-            query.answer("Only owner of the chat can do this.")
+            query.answer("Chỉ chủ sở hữu của cuộc trò chuyện mới có thể làm điều này.")
         if member.status == "member":
-            query.answer("You need to be admin to do this.")
+            query.answer("Bạn cần phải là quản trị viên để làm điều này.")
 
 
 __help__ = """
-Sometimes, you might trust a user not to send unwanted content.
-Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
+Đôi khi, bạn có thể tin tưởng người dùng không gửi nội dung không mong muốn.
+Có thể không đủ để khiến họ trở thành quản trị viên, nhưng bạn có thể yên tâm với locks, danh sách đen và antiflood không áp dụng cho họ.
 
-That's what approvals are for - approve of trustworthy users to allow them to send
+Phê duyệt những người dùng đáng tin cậy để cho phép họ gửi các tin nhắn.
 
 *Admin commands:*
-- `/approval`*:* Check a user's approval status in this chat.
-- `/approve`*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
-- `/unapprove`*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
-- `/approved`*:* List all approved users.
-- `/unapproveall`*:* Unapprove *ALL* users in a chat. This cannot be undone.
+- `/approval`*:* Kiểm tra trạng thái phê duyệt của người dùng trong cuộc trò chuyện này.
+- `/approve`*:* Phê duyệt của một người dùng. Khóa, danh sách đen và antiflood sẽ không áp dụng cho chúng nữa.
+- `/unapprove`*:* Không phê duyệt người dùng. Bây giờ họ có thể sẽ bị khóa, danh sách đen và antiflood.
+- `/approved`*:* Liệt kê tất cả người dùng đã được phê duyệt.
+- `/unapproveall`*:* Không chấp thuận * TẤT CẢ * người dùng trong cuộc trò chuyện. Điều này không thể được hoàn tác.
 """
 
 APPROVE = DisableAbleCommandHandler("approve", approve)
