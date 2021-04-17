@@ -75,7 +75,7 @@ Hey {}, Mình là {}!
 
 Mình là một hỗ trợ quản lý group trên telegram được tạo ra bởi chị chủ [Phương Anh](https://t.me/phuonganh_lnb).
 
-Rất vui vì được hỗ trợ bạn! 🥰🥰🥰
+Hãy gõ /help để mình có thể trợ giúp bạn nhé 🥰🥰🥰
 """
 
 HELP_STRINGS = """
@@ -83,7 +83,6 @@ Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạ
 • /settings:
    • Trong PM: Sẽ hiển thị tất cả các module đã được hỗ trợ.
    • Trong Group: Sẽ chuyễn bạn đến với PM với tất cả các cài đặt của chat.
-
 """.format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
@@ -92,7 +91,6 @@ Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạ
 SAITAMA_IMG = "https://telegra.ph/file/7a6f6dd98c124087d72a6.jpg"
 
 DONATE_STRING = """Heya, Bạn muốn ủng hộ chị chủ của mình sao?
-
 Cảm ơn bạn nhiều nhiều nha 😘😘😘
 """
 
@@ -219,8 +217,8 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="😎 Trợ Giúp",
-                                url="t.me/{}?start=help"
+                                text="😎 Group Hỗ Trợ",
+                                url="https://t.me/hotrobotkieu"
                             ),
                             InlineKeyboardButton(
                                 text="🥳 Donate",
