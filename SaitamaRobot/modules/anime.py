@@ -10,7 +10,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, Message
 from telegram.ext import CallbackContext, run_async
 
-info_btn = "More Information"
+info_btn = "Hiện thêm thông tin"
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
 prequel_btn = "⬅️ Prequel"
@@ -174,10 +174,10 @@ def airing(update: Update, context: CallbackContext):
     search_str = extract_arg(message)
     if not search_str:
         update.effective_message.reply_text(
-            "Tell Anime Name :) ( /airing <anime name>)",
+            "Kể tên Anime :) ( /airing <tên Anime>)",
         )
         return
-    variables = {"search": search_str}
+    variables = {"Tìm Kiếm": search_str}
     response = requests.post(
         url, json={"query": airing_query, "variables": variables},
     ).json()["data"]["Media"]
@@ -532,18 +532,18 @@ def kayo(update: Update, context: CallbackContext):
 
 
 __help__ = """
-Get information about anime, manga or characters from [AniList](anilist.co).
+Nhận thông tin về anime, manga hoặc các nhân vật từ [AniList](anilist.co).
 
 *Available commands:*
 
- • `/anime <anime>`*:* returns information about the anime.
- • `/character <character>`*:* returns information about the character.
- • `/manga <manga>`*:* returns information about the manga.
- • `/user <user>`*:* returns information about a MyAnimeList user.
- • `/upcoming`*:* returns a list of new anime in the upcoming seasons.
- • `/kaizoku <anime>`*:* search an anime on animekaizoku.com
- • `/kayo <anime>`*:* search an anime on animekayo.com
- • `/airing <anime>`*:* returns anime airing info.
+ • `/anime <anime>`*:* trả về thông tin về anime.
+ • `/character <character>`*:* trả về thông tin về nhân vật.
+ • `/manga <manga>`*:* trả về thông tin về manga.
+ • `/user <user>`*:* trả về thông tin về người dùng MyAnimeList.
+ • `/upcoming`*:* trả về một list các anime mới trong các mùa sắp tới.
+ • `/kaizoku <anime>`*:* tìm kiếm anime trên animekaizoku.com
+ • `/kayo <anime>`*:* tìm kiếm anime trên animekayo.com
+ • `/airing <anime>`*:* trả về thông tin phát sóng anime.
 
  """
 
