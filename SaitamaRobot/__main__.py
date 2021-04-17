@@ -92,7 +92,8 @@ Hãy chọn một cái module bên dưới để mình có thể hỗ trợ bạ
 SAITAMA_IMG = "https://telegra.ph/file/7a6f6dd98c124087d72a6.jpg"
 
 DONATE_STRING = """Heya, Bạn muốn ủng hộ chị chủ của mình sao?
- Bạn có thể donate qua [Paypal](https://www.paypal.me/laungungbitch) nha 😘😘😘
+
+Cảm ơn bạn nhiều nhiều nha 😘😘😘
 """
 
 IMPORTED = {}
@@ -113,7 +114,7 @@ for module_name in ALL_MODULES:
     if imported_module.__mod_name__.lower() not in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
     else:
-        raise Exception("Can't have two modules with the same name! Please change one")
+        raise Exception("Không thể có hai module cùng một tên, vui lòng thay đổi")
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
         HELPABLE[imported_module.__mod_name__.lower()] = imported_module
@@ -218,12 +219,12 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🚑 Hỗ Trợ",
-                                url=f"https://t.me/{SUPPORT_CHAT}",
+                                text="😎 Trợ Giúp",
+                                callback_data="help_back",
                             ),
                             InlineKeyboardButton(
-                                text="🔔 Nhóm Support",
-                                url="https://t.me/OnePunchUpdates",
+                                text="🥳 Donate",
+                                url="https://www.paypal.me/laungungbitch",
                             ),
                         ],
                         [
@@ -237,7 +238,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
+            "Mình đã thức dậy!\n<b>Đã không ngủ kể từ:</b> <code>{}</code>".format(
                 uptime,
             ),
             parse_mode=ParseMode.HTML,
@@ -288,7 +289,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                "Đây là phần hỗ trợ cho *{}* module:\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -349,7 +350,7 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                f"Liên hệ với mình trong PM để nhận trợ giúp về {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -365,7 +366,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Liên hệ với mình trong PM để nhận danh sách các lệnh.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -382,7 +383,7 @@ def get_help(update: Update, context: CallbackContext):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            "Đây là trợ giúp có sẵn cho *{}* module:\n".format(
                 HELPABLE[module].__mod_name__,
             )
             + HELPABLE[module].__help__
@@ -408,14 +409,14 @@ def send_settings(chat_id, user_id, user=False):
             )
             dispatcher.bot.send_message(
                 user_id,
-                "These are your current settings:" + "\n\n" + settings,
+                "Đây là những cài đặt hiện tại của bạn:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Có vẻ như không có bất kỳ cài đặt dành riêng cho người dùng nào :'(",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -434,8 +435,8 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "Có vẻ như không có bất kỳ cài đặt trò chuyện nào khả dụng :'(\nSend this "
+                "Trong một cuộc trò chuyện nhóm mà bạn là quản trị viên để tìm cài đặt hiện tại của nó!",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -477,7 +478,7 @@ def settings_button(update: Update, context: CallbackContext):
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "Chào bạn! Có khá nhiều cài đặt cho {} - hãy đến và chọn chúng! "
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
@@ -491,7 +492,7 @@ def settings_button(update: Update, context: CallbackContext):
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "Chào bạn! Có khá nhiều cài đặt cho {} - hãy đến và chọn chúng! "
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
@@ -504,7 +505,7 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
+                text="Chào bạn! Có khá nhiều cài đặt cho {} - hãy đến và chọn chúng! "
                 "you're interested in.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -517,11 +518,11 @@ def settings_button(update: Update, context: CallbackContext):
         query.message.delete()
     except BadRequest as excp:
         if excp.message not in [
-            "Message is not modified",
+            "Tin nhắn không được sửa đổi",
             "Query_id_invalid",
-            "Message can't be deleted",
+            "Không thể xóa tin nhắn",
         ]:
-            LOGGER.exception("Exception in settings buttons. %s", str(query.data))
+            LOGGER.exception("Ngoại lệ trong các nút cài đặt. %s", str(query.data))
 
 
 @run_async
@@ -533,7 +534,7 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "Click here to get this chat's settings, as well as yours."
+            text = "Nhấp vào đây để nhận cài đặt của cuộc trò chuyện này, cũng như của bạn."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup(
@@ -550,7 +551,7 @@ def get_settings(update: Update, context: CallbackContext):
                 ),
             )
         else:
-            text = "Click here to check your settings."
+            text = "Bấm vào đây để kiểm tra cài đặt của bạn."
 
     else:
         send_settings(chat.id, user.id, True)
@@ -568,8 +569,8 @@ def donate(update: Update, context: CallbackContext):
 
         if OWNER_ID != 254318997 and DONATION_LINK:
             update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
-                "[here]({})".format(DONATION_LINK),
+                "Bấm vào link này để ủng hộ cho chị chủ của mình nhé "
+                "[Link Donate]({})".format(DONATION_LINK),
                 parse_mode=ParseMode.MARKDOWN,
             )
 
