@@ -51,7 +51,7 @@ def import_data(update, context):
             file_info = context.bot.get_file(msg.reply_to_message.document.file_id)
         except BadRequest:
             msg.reply_text(
-                "Try downloading and uploading the file yourself again, This one seem broken to me!",
+                "Hãy thử tự tải xuống và tải tệp lên lại, mình thấy tệp này có vẻ bị hỏng rồi đó",
             )
             return
 
@@ -63,7 +63,7 @@ def import_data(update, context):
         # only import one group
         if len(data) > 1 and str(chat.id) not in data:
             msg.reply_text(
-                "There are more than one group in this file and the chat.id is not same! How am i supposed to import it?",
+                "Có nhiều hơn một nhóm trong tệp này và chat.id không giống nhau! Mình không biết phải nhập nó như thế nào @@",
             )
             return
 
@@ -71,19 +71,19 @@ def import_data(update, context):
         try:
             if data.get(str(chat.id)) is None:
                 if conn:
-                    text = "Backup comes from another chat, I can't return another chat to chat *{}*".format(
+                    text = "Bản sao lưu này đến từ một cuộc nhóm chat khác, mình không thể đến nhóm chat này để trò chuyện được *{}*".format(
                         chat_name,
                     )
                 else:
-                    text = "Backup comes from another chat, I can't return another chat to this chat"
+                    text = "Bản sao lưu này đến từ một cuộc nhóm chat khác, mình không thể đến nhóm chat này để trò chuyện được"
                 return msg.reply_text(text, parse_mode="markdown")
         except Exception:
-            return msg.reply_text("There was a problem while importing the data!")
+            return msg.reply_text("Đã xảy ra sự cố khi nhập dữ liệu!")
         # Check if backup is from self
         try:
             if str(context.bot.id) != str(data[str(chat.id)]["bot"]):
                 return msg.reply_text(
-                    "Backup from another bot that is not suggested might cause the problem, documents, photos, videos, audios, records might not work as it should be.",
+                    "Sao lưu từ một bot khác không được đề xuất có thể gây ra sự cố, tài liệu, ảnh, video, âm thanh, bản ghi có thể không hoạt động như bình thường.",
                 )
         except Exception:
             pass
@@ -98,11 +98,11 @@ def import_data(update, context):
                 mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text(
-                f"An error occurred while recovering your data. The process failed. If you experience a problem with this, please take it to @{SUPPORT_CHAT}",
+                f"Đã xảy ra lỗi khi khôi phục dữ liệu của bạn. Quá trình không thành công. Nếu bạn gặp sự cố với điều này, vui lòng gửi tin nhắn đến @{SUPPORT_CHAT}",
             )
 
             LOGGER.exception(
-                "Imprt for the chat %s with the name %s failed.",
+                "Nhập cho cuộc trò chuyện %s với tên %s đã thất bại.",
                 str(chat.id),
                 str(chat.title),
             )
@@ -112,9 +112,9 @@ def import_data(update, context):
         # NOTE: consider default permissions stuff?
         if conn:
 
-            text = "Backup fully restored on *{}*.".format(chat_name)
+            text = "Đã khôi phục hoàn toàn bản sao lưu vào *{}*.".format(chat_name)
         else:
-            text = "Backup fully restored"
+            text = "Đã khôi phục hoàn toàn bản sao lưu"
         msg.reply_text(text, parse_mode="markdown")
 
 
@@ -134,7 +134,7 @@ def export_data(update, context):
         # chat_name = dispatcher.bot.getChat(conn).title
     else:
         if update.effective_message.chat.type == "private":
-            update.effective_message.reply_text("This is a group only command!")
+            update.effective_message.reply_text("Đây là lệnh chỉ dành cho nhóm!")
             return ""
         chat = update.effective_chat
         chat_id = update.effective_chat.id
@@ -149,7 +149,7 @@ def export_data(update, context):
                 "%H:%M:%S %d/%m/%Y", time.localtime(checkchat.get("value")),
             )
             update.effective_message.reply_text(
-                "You can only backup once a day!\nYou can backup again in about `{}`".format(
+                "Bạn chỉ có thể sao lưu một lần một ngày!\nBạn có thể sao lưu lại sau khoảng `{}`".format(
                     timeformatt,
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -370,12 +370,11 @@ def get_chat(chat_id, chat_data):
 __mod_name__ = "Backups"
 
 __help__ = """
-*Only for group owner:*
+*Chỉ dành cho chủ sở hữu nhóm:*
 
- • /import: Reply to the backup file for the butler / emilia group to import as much as possible, making transfers very easy! \
- Note that files / photos cannot be imported due to telegram restrictions.
+ • /import: Reply một backup file để import dữ liệu / Ảnh không nên được import do sự hạn chế của Telegram.
 
- • /export: Export group data, which will be exported are: rules, notes (documents, images, music, video, audio, voice, text, text buttons) \
+ • /export: Xuất dữ liệu nhóm, các dữ liệu sẽ được xuất là (documents, images, music, video, audio, voice, text, text buttons) \
 
 """
 
